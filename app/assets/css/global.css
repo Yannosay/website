@@ -1,0 +1,45 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Unbounded:wght@200;400;900&display=swap');
+
+:root {
+  --black: #000;
+  --white: #fff;
+  --muted: rgba(255,255,255,0.4);
+  --line: rgba(255,255,255,0.08);
+  --ease: cubic-bezier(0.4, 0, 0.2, 1);
+  --font-sans: 'Unbounded', sans-serif;
+  --font-serif: 'DM Serif Display', serif;
+}
+
+* { margin:0; padding:0; box-sizing:border-box }
+body { background:var(--black); color:var(--white); font-family:var(--font-sans); -webkit-font-smoothing:antialiased }
+
+.eyebrow {
+  font-size:0.6rem; font-weight:200; letter-spacing:0.3em; text-transform:uppercase;
+  color:var(--muted); margin-bottom:1.4rem;
+}
+.section-heading {
+  font-family:var(--font-sans); font-weight:900;
+  font-size:clamp(2.5rem,6vw,5rem); letter-spacing:-0.04em; line-height:0.92;
+}
+.section-heading em {
+  font-family:var(--font-serif); font-style:italic; font-weight:400; opacity:1; color:#ffe5f3;
+}
+.reveal {
+  opacity:0; transform:translateY(28px);
+  transition: opacity 0.7s var(--ease), transform 0.7s var(--ease);
+}
+
+
+
+
+.reveal-visible { opacity:1 !important; transform:translateY(0) !important }
+.reveal-d0 { transition-delay:0s }
+.reveal-d1 { transition-delay:0.1s }
+.reveal-d2 { transition-delay:0.2s }
+.reveal-d3 { transition-delay:0.3s }
+.reveal-d4 { transition-delay:0.4s }
+
+::selection {
+  color:rgb(255, 255, 255);
+  background-color:#ffb1db;
+}

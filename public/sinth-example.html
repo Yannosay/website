@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+<!-- Done with Sinth Compiler v1.3.0 -->
+
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+
+  body {
+    background: #000000;
+    color: #ffffff;
+  }
+
+  [data-s="bd9719f7"] button, button[data-s="bd9719f7"] {
+    padding: 0.55rem 1.5rem;
+    border-radius: 999px;
+    font-size: 0.65rem;
+    font-weight: 400;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    display: inline-block;
+    cursor: pointer;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1), padding 0.6s cubic-bezier(0.34, 2.1, 0.64, 1), background 0.3s ease, border-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+    user-select: none;
+    -webkit-user-select: none;
+    background: rgba(255, 255, 255, 0.03);
+    color: #ffffff;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 0 0 0 rgba(255, 255, 255, 0);
+  }
+
+  [data-s="bd9719f7"] button:hover, button[data-s="bd9719f7"]:hover {
+    transform: scale(1.05);
+    border-color: rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.06);
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.05), inset 0 0 20px rgba(255, 255, 255, 0.02);
+  }
+
+  [data-s="bd9719f7"] button:active, button[data-s="bd9719f7"]:active {
+    transform: scale(0.92);
+    padding: 0.55rem 1.2rem;
+    transition: transform 0.05s cubic-bezier(0.2, 0, 0.8, 1), padding 0.05s cubic-bezier(0.2, 0, 0.8, 1), background 0.05s ease, border-color 0.05s ease, color 0.05s ease, box-shadow 0.05s ease;
+  }
+
+
+  </style>
+</head>
+<body data-s="bd9719f7">
+<main data-s="bd9719f7"><h1 data-s="bd9719f7"><span class="sinth-expr" data-expr-id="0"></span></h1><button data-s="bd9719f7" onclick="(function(){ count += 1; sinthRender(); })()" type="button">Increment</button><button data-s="bd9719f7" onclick="(function(){ count -= 1; sinthRender(); })()" type="button">Decrement</button><button data-s="bd9719f7" onclick="(function(){ count = 0; sinthRender(); })()" type="button">Reset</button></main>
+<script>
+// Sinth compiled runtime
+let count = 0;
+
+var sinthExpr = function(el) {
+  try {
+    let exprFn = __X[el.dataset.exprId];
+    if (exprFn) el.textContent = exprFn({});
+  } catch(e) {}
+};
+
+let __X = [function(_ctx){ return ("Count: " + count); }];
+
+function sinthRender() {
+    let _sx = window.scrollX, _sy = window.scrollY;
+    document.querySelectorAll('[data-sinth-remove]').forEach(function(el) {
+      let target = document.getElementById(el.dataset.sinthRemove);
+      if (target) target.remove();
+    });
+    document.querySelectorAll('[data-sinth-value]').forEach(function(el) {
+      try { if (document.activeElement !== el) { let v=el.dataset.sinthValue; el.value = __X[v] ? __X[v]({}) : ''; } } catch(e) {}
+    });
+    document.querySelectorAll('[data-sinth-step]').forEach(function(el) {
+      try { let s=el.dataset.sinthStep; el.step = __X[s] ? __X[s]({}) : 1; } catch(e) {}
+    });
+    document.querySelectorAll('[data-sinth-checked]').forEach(function(el) {
+      try { let c=el.dataset.sinthChecked; el.checked = __X[c] ? !!__X[c]({}) : false; } catch(e) {}
+    });
+    document.querySelectorAll('.sinth-expr').forEach(function(el) {
+      let delayParent = el.closest('[data-sinth-delay]');
+      if (!delayParent || delayParent.dataset.sinthDelayDone) {
+        sinthExpr(el);
+      }
+    });
+    document.querySelectorAll('[data-sinth-hide]').forEach(function(el) {
+      let exprId = el.dataset.sinthHide;
+      if (exprId) {
+        try {
+          let exprFn = __X[exprId];
+          if (exprFn) el.style.display = exprFn({}) ? 'none' : '';
+        } catch(e) {}
+      } else {
+        el.style.display = 'none';
+      }
+    });
+    document.querySelectorAll('[data-sinth-fullscreen]').forEach(function(el) {
+      let exprId = el.dataset.sinthFullscreen;
+      if (exprId) {
+        try {
+          let exprFn = __X[exprId];
+          if (exprFn) {
+            if (exprFn({})) {
+              if (document.documentElement.requestFullscreen) document.documentElement.requestFullscreen();
+            } else {
+              if (document.fullscreenElement && document.exitFullscreen) document.exitFullscreen();
+            }
+          }
+        } catch(e) {}
+      }
+    });
+    window.scrollTo(_sx, _sy);
+  
+}
+sinthRender();
+</script>
+</body>
+</html>
