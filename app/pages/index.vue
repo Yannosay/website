@@ -3,6 +3,7 @@
     <HomeSectionHero />
     <HomeSectionWork :items="workItems" />
     <HomeSectionSinth />
+    <HomeSectionNews />
     <HomeSectionFilms :items="filmItems" />
     <HomeSectionMore :items="moreItems" />
   </div>

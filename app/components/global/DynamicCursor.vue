@@ -11,6 +11,8 @@
       left: `${mouse.x}px`,
       top: `${mouse.y}px`
     }"
+    @dragstart.prevent
+    @selectstart.prevent
   >
     <span v-if="cursorText && hovered" class="cursor-label">{{ cursorText }}</span>
   </div>

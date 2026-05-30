@@ -7,6 +7,7 @@
           <img src="/assets/images/logo.png" alt="Yannosay" class="h-8 w-auto">
         </a>
         <div class="flex items-center gap-6 md:gap-10 text-sm tracking-wide">
+          <NuxtLink to="/news" class="text-white/50 hover:text-white transition-colors duration-300">News</NuxtLink>          
           <NuxtLink to="/games" class="text-white/50 hover:text-white transition-colors duration-300">Games</NuxtLink>
           <NuxtLink to="/movies" class="text-white/50 hover:text-white transition-colors duration-300">Movies</NuxtLink>
           <NuxtLink to="/tools" class="text-white/50 hover:text-white transition-colors duration-300">Tools</NuxtLink>

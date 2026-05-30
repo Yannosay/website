@@ -4,6 +4,15 @@ export default defineNuxtConfig({
     '~/assets/css/main.css',
     '~/assets/css/global.css'
   ],
+  runtimeConfig: {
+    public: {
+      newsApi: process.env.NUXT_PUBLIC_NEWS_API || 'https://news-api.yp-worker.workers.dev'
+    }
+  },
+  routeRules: {
+    '/news': { swr: 600 },
+    '/news/**': { swr: 3600 }
+  },
   app: {
     head: {
       // meta: [
