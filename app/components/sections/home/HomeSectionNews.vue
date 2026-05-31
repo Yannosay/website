@@ -14,7 +14,7 @@
         <p class="body">
           <span class="excerpt-text">{{ item.excerpt.replace(/\.{3}$/, '') }}</span>
           <span v-if="item.excerpt.endsWith('...')" class="excerpt-ellipsis">...</span>
-          <NuxtLink v-if="item.excerpt.endsWith('...')" :to="`/news/${item.slug}`" class="read-more">Read more</NuxtLink>
+          <span v-if="item.excerpt.endsWith('...')" class="read-more">Read more</span>
         </p>
       </NuxtLink>
     </div>

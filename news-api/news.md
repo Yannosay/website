@@ -1,14 +1,5 @@
-# New News Section
+# Coming Soon: Sinth Docs
 
-We are happy to announce that we now have a News Section to keep you updated!
+Sinth Docs is coming soon — well-structured and informative. Whether it will be hosted at yannosay.com or sinth.yannosay.com is still being planned. We’ll keep you posted!
 
-This will bring you:
-
-* the latest News
-* Announcements
-* bugfixes
-* and more!
-
-<button>test</button>
-
-Go back [home](/)
+Install Sinth: [Download on NPM](https://www.npmjs.com/package/@yannosay/sinth)
