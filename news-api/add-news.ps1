@@ -36,7 +36,7 @@ if ($delete) {
   $list = Get-ListFromKV
   $list = @($list | Where-Object { $_.slug -ne $delete })
   $listJson = Build-ListJson $list
-  Set-Content -Path list.json -Value $listJson
+  [System.IO.File]::WriteAllText("$PWD\list.json", $listJson)
   npx wrangler kv key put --binding=NEWS_KV "news:list" --path list.json --remote --preview false
   Remove-Item list.json -ErrorAction SilentlyContinue
   Write-Host "Article '$delete' deleted."
@@ -50,7 +50,7 @@ if (-not $file) {
   exit
 }
 
-$contentString = "$(Get-Content $file -Raw)"
+$contentString = "$(Get-Content $file -Raw -Encoding UTF8)"
 $bodyOnly = $contentString -replace '^#\s+.+\r?\n\r?\n', ''
 
 $titleMatch = [regex]::Match($contentString, '^#\s+(.+)$', [System.Text.RegularExpressions.RegexOptions]::Multiline)
@@ -74,14 +74,12 @@ if ($paragraphs.Length -gt 0) {
   }
 }
 
-$article = [ordered]@{
-  slug = $slug
-  title = $title
-  excerpt = $excerpt
-  content = $bodyOnly
-} | ConvertTo-Json -Compress
+$escapedContent = $bodyOnly -replace '\\', '\\\\' -replace '"', '\"' -replace '\r?\n', '\n'
+$escapedExcerpt = $excerpt -replace '\\', '\\\\' -replace '"', '\"'
+$escapedTitle = $title -replace '\\', '\\\\' -replace '"', '\"'
+$article = "{`"slug`":`"$slug`",`"title`":`"$escapedTitle`",`"excerpt`":`"$escapedExcerpt`",`"content`":`"$escapedContent`"}"
 
-Set-Content -Path article.json -Value $article
+[System.IO.File]::WriteAllText("$PWD\article.json", $article)
 npx wrangler kv key put --binding=NEWS_KV "news:article:$slug" --path article.json --remote --preview false
 
 $list = Get-ListFromKV
@@ -90,7 +88,7 @@ $date = if ($existingEntry) { $existingEntry.date } else { Get-Date -Format "yyy
 $newEntry = [PSCustomObject]@{slug=$slug; title=$title; date=$date; excerpt=$excerpt}
 $list = @($newEntry) + ($list | Where-Object { $_.slug -ne $slug })
 $listJson = Build-ListJson $list
-Set-Content -Path list.json -Value $listJson
+[System.IO.File]::WriteAllText("$PWD\list.json", $listJson)
 npx wrangler kv key put --binding=NEWS_KV "news:list" --path list.json --remote --preview false
 
 Remove-Item article.json, list.json -ErrorAction SilentlyContinue

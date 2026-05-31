@@ -8,7 +8,14 @@
 const route = useRoute()
 const slug = route.params.slug
 
+const { data: article } = await useAsyncData(`news-article-${slug}`, () =>
+  $fetch(`/api/news/${slug}`, {
+    baseURL: 'https://news-api.yp-worker.workers.dev',
+    headers: { Accept: 'application/json' }
+  })
+)
+
 useHead({
-  title: `${slug.replace(/-/g, ' ')} – Yannosay Productions`
+  title: () => article.value?.title ? `${article.value.title} – Yannosay Productions` : 'Announcement – Yannosay Productions'
 })
 </script>
