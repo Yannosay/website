@@ -13,7 +13,7 @@
           <NuxtLink to="/tools" class="text-white/50 hover:text-white transition-colors duration-300">Tools</NuxtLink>
           <NuxtLink to="/illustrations" class="text-white/50 hover:text-white transition-colors duration-300">Illustrations</NuxtLink>
           <NuxtLink to="/youtube" class="text-white/50 hover:text-white transition-colors duration-300">YouTube</NuxtLink>
-          <UiSettingsIcon />
+          <SettingsIcon />
         </div>
       </nav>
     </header>
@@ -51,7 +51,9 @@
 </template>
 
 <script setup>
-if (import.meta.client) {
-  import('../assets/src/libraries/SinthUI.js')
-}
+import DynamicCursor from '~/components/global/DynamicCursor.vue'
+import SettingsIcon from '~/components/ui/SettingsIcon.vue'
+import ModalLayer from '~/components/global/ModalLayer.vue'
+
+if (import.meta.client) {import('../assets/src/libraries/SinthUI.js')}
 </script>

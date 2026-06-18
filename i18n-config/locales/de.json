@@ -1,0 +1,69 @@
+{
+  "settings": {
+    "title": "Einstellungen",
+    "subtitle": "Passe dein Erlebnis an",
+    "appearance": {
+      "heading": "Erscheinungsbild",
+      "cursor": {
+        "label": "Dynamischer Cursor",
+        "description": "Wenn aus, wird der native Mauszeiger verwendet"
+      }
+    },
+    "language": {
+      "heading": "Sprache",
+      "display": {
+        "label": "Anzeigesprache",
+        "description": "Wähle deine bevorzugte Sprache"
+      },
+      "options": {
+        "en": "English",
+        "de": "Deutsch"
+      }
+    }
+  },
+  "home": {
+    "hero": {
+      "download": "Sinth herunterladen",
+      "screensaver": "Bildschirmschoner",
+      "discord": "Discord"
+    },
+    "work": {
+      "eyebrow": "Ausgewählte Arbeiten",
+      "heading": "Was ich mache.",
+      "count": "{count} Projekte"
+    },
+    "sinth": {
+      "eyebrow": "Vorgestelltes Tool",
+      "tagline": "\"HTML, aber sooo einfach!\"",
+      "description": "Eine deklarative, reaktive Sprache, die direkt zu HTML kompiliert. Zwei-Wege-Bindung in einer Zeile. Logik und UI nebeneinander. Kein useState, onChange oder e.target.value.",
+      "npm": "Herunterladen auf NPM",
+      "github": "GitHub",
+      "discord": "Discord"
+    },
+    "news": {
+      "eyebrow": "Bleib informiert",
+      "heading": "Neueste Nachrichten.",
+      "viewAll": "Alle Ankündigungen anzeigen →",
+      "readMore": "Weiterlesen"
+    },
+    "films": {
+      "eyebrow": "Film",
+      "heading": "Die Projekte",
+      "headingEm": "Saga.",
+      "description": "Eine fortlaufende filmische Serie. Jeder Eintrag fängt ein anderes Projekt, einen Moment oder eine Idee ein — roh, ungefiltert, völlig unabhängig.",
+      "watch": "Playlist ansehen"
+    },
+    "more": {
+      "eyebrow": "Alles andere",
+      "heading": "Und noch viel mehr."
+    }
+  },
+  "modal": {
+  "sinthDownload": {
+    "title": "{package} herunterladen",
+    "description": "Dies öffnet die NPM-Website.",
+    "cancel": "Abbrechen",
+    "download": "Herunterladen auf NPM"
+    }
+  }
+}

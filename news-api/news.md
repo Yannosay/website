@@ -1,5 +1,5 @@
-# Sinth Docs: Coming Soon
+# Comprehensive revision for YP
 
-Sinth Docs is coming soon — well-structured and informative. Whether it will be hosted at yannosay.com or sinth.yannosay.com is still being planned. We’ll keep you posted!
+This website will soon be even more **comprehensive**, beautiful, and better designed! (New logo, Sinth Docs website relaunched, and more!)
 
-Install Sinth: [Download on NPM!](https://www.npmjs.com/@yannosay/sinth) :3
+Stay tuned!

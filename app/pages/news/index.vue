@@ -5,6 +5,8 @@
 </template>
 
 <script setup>
+import NewsSectionList from '~/components/sections/news/NewsSectionList.vue';
+
 useHead({
   title: 'Yannosay Productions',
   meta: [

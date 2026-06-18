@@ -1,4 +1,5 @@
 <template>
+  <ClientOnly>
   <div
     v-if="enabled"
     class="dynamic-cursor"
@@ -16,6 +17,7 @@
   >
     <span v-if="cursorText && hovered" class="cursor-label">{{ cursorText }}</span>
   </div>
+  </ClientOnly>
 </template>
 
 <script setup>
@@ -27,7 +29,7 @@ const { mouse, hovered, pressed, cursorText, visible, enabled } = useDynamicCurs
 <style scoped>
 .dynamic-cursor {
   position: fixed;
-  z-index: 99999;
+  z-index: 999999999999999999999;
   width: 10px;
   height: 10px;
   background: #fff;

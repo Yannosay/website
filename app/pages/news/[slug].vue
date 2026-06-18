@@ -5,6 +5,8 @@
 </template>
 
 <script setup>
+import NewsSectionArticle from '~/components/sections/news/NewsSectionArticle.vue';
+
 const route = useRoute()
 const slug = route.params.slug
 

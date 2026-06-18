@@ -20,75 +20,6 @@
   </section>
 </template>
 
-<script setup>
-import { marked } from 'marked'
-import { markedHighlight } from 'marked-highlight'
-import hljs from 'highlight.js/lib/core'
-import json from 'highlight.js/lib/languages/json'
-import javascript from 'highlight.js/lib/languages/javascript'
-import typescript from 'highlight.js/lib/languages/typescript'
-import bash from 'highlight.js/lib/languages/bash'
-import css from 'highlight.js/lib/languages/css'
-import xml from 'highlight.js/lib/languages/xml'
-
-hljs.registerLanguage('json', json)
-hljs.registerLanguage('javascript', javascript)
-hljs.registerLanguage('js', javascript)
-hljs.registerLanguage('typescript', typescript)
-hljs.registerLanguage('ts', typescript)
-hljs.registerLanguage('bash', bash)
-hljs.registerLanguage('sh', bash)
-hljs.registerLanguage('css', css)
-hljs.registerLanguage('html', xml)
-hljs.registerLanguage('xml', xml)
-
-marked.use(
-  markedHighlight({
-    langPrefix: 'hljs language-',
-    highlight(code, lang) {
-      if (lang && hljs.getLanguage(lang)) {
-        return hljs.highlight(code, { language: lang }).value
-      }
-      return code
-    }
-  })
-)
-
-marked.setOptions({
-  breaks: true,
-  gfm: true,
-  html: true
-})
-
-const props = defineProps({
-  slug: { type: String, required: true }
-})
-
-const { data: article, pending, error } = await useAsyncData(
-  `news-article-${props.slug}`,
-  () =>
-    $fetch(`/api/news/${props.slug}`, {
-      baseURL: 'https://news-api.yp-worker.workers.dev',
-      headers: { Accept: 'application/json' }
-    }),
-  { server: true }
-)
-
-const renderedContent = computed(() => {
-  if (!article.value?.content) return ''
-  return marked.parse(article.value.content)
-})
-
-function formatDate(dateStr) {
-  if (!dateStr || !/^\d{4}-\d{2}-\d{2}$/.test(dateStr)) return dateStr
-  return new Date(dateStr).toLocaleDateString('en-US', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric'
-  })
-}
-</script>
-
 <style scoped>
 .news-article {
   min-height: 100svh;
@@ -326,3 +257,75 @@ function formatDate(dateStr) {
   background: rgba(255, 255, 255, 0.14);
 }
 </style>
+
+<script setup>
+
+
+import { marked } from 'marked'
+import { markedHighlight } from 'marked-highlight'
+import hljs from 'highlight.js/lib/core'
+import json from 'highlight.js/lib/languages/json'
+import javascript from 'highlight.js/lib/languages/javascript'
+import typescript from 'highlight.js/lib/languages/typescript'
+import bash from 'highlight.js/lib/languages/bash'
+import css from 'highlight.js/lib/languages/css'
+import xml from 'highlight.js/lib/languages/xml'
+
+
+hljs.registerLanguage('json', json)
+hljs.registerLanguage('javascript', javascript)
+hljs.registerLanguage('js', javascript)
+hljs.registerLanguage('typescript', typescript)
+hljs.registerLanguage('ts', typescript)
+hljs.registerLanguage('bash', bash)
+hljs.registerLanguage('sh', bash)
+hljs.registerLanguage('css', css)
+hljs.registerLanguage('html', xml)
+hljs.registerLanguage('xml', xml)
+
+marked.use(
+  markedHighlight({
+    langPrefix: 'hljs language-',
+    highlight(code, lang) {
+      if (lang && hljs.getLanguage(lang)) {
+        return hljs.highlight(code, { language: lang }).value
+      }
+      return code
+    }
+  })
+)
+
+marked.setOptions({
+  breaks: true,
+  gfm: true,
+  html: true
+})
+
+const props = defineProps({
+  slug: { type: String, required: true }
+})
+
+const { data: article, pending, error } = await useAsyncData(
+  `news-article-${props.slug}`,
+  () =>
+    $fetch(`/api/news/${props.slug}`, {
+      baseURL: 'https://news-api.yp-worker.workers.dev',
+      headers: { Accept: 'application/json' }
+    }),
+  { server: true }
+)
+
+const renderedContent = computed(() => {
+  if (!article.value?.content) return ''
+  return marked.parse(article.value.content)
+})
+
+function formatDate(dateStr) {
+  if (!dateStr || !/^\d{4}-\d{2}-\d{2}$/.test(dateStr)) return dateStr
+  return new Date(dateStr).toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric'
+  })
+}
+</script>

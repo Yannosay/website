@@ -1,0 +1,69 @@
+{
+  "settings": {
+    "title": "Settings",
+    "subtitle": "Customize your experience",
+    "appearance": {
+      "heading": "Appearance",
+      "cursor": {
+        "label": "Dynamic Cursor",
+        "description": "When off, uses your native mouse cursor"
+      }
+    },
+    "language": {
+      "heading": "Language",
+      "display": {
+        "label": "Display Language",
+        "description": "Select your preferred language"
+      },
+      "options": {
+        "en": "English",
+        "de": "Deutsch"
+      }
+    }
+  },
+  "home": {
+    "hero": {
+      "download": "Download Sinth",
+      "screensaver": "Screensaver",
+      "discord": "Discord"
+    },
+    "work": {
+      "eyebrow": "Selected work",
+      "heading": "What I make.",
+      "count": "{count} projects"
+    },
+    "sinth": {
+      "eyebrow": "Featured tool",
+      "tagline": "Sinth Is Not That Hard",
+      "description": "A new declarative, reactive language made for web. Like HTML, just better. ",
+      "npm": "Download on NPM",
+      "github": "GitHub",
+      "discord": "Discord"
+    },
+    "news": {
+      "eyebrow": "Stay updated",
+      "heading": "Latest news.",
+      "viewAll": "View all announcements →",
+      "readMore": "Read more"
+    },
+    "films": {
+      "eyebrow": "Film",
+      "heading": "The Projects",
+      "headingEm": "Saga.",
+      "description": "An ongoing cinematic series. Each entry captures a different project, moment, or idea — raw, unfiltered, completely independent.",
+      "watch": "Watch the playlist"
+    },
+    "more": {
+      "eyebrow": "Everything else",
+      "heading": "And much more."
+    }
+  },
+  "modal": {
+  "sinthDownload": {
+    "title": "Download {package}",
+    "description": "This will open the NPM Website.",
+    "cancel": "Cancel",
+    "download": "Download on NPM"
+    }
+  }
+}
