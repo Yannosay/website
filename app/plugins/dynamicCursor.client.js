@@ -1,108 +1,77 @@
 import { useDynamicCursor } from '~/composables/useDynamicCursor'
 
+const HOVER_SELECTOR = 'a, button, input, textarea, select, [data-cursor], [data-cursor-text], [data-cursor-hover]'
+
 export default defineNuxtPlugin(() => {
   if (typeof window === 'undefined') return
-  if ('ontouchstart' in window) return
+  if (window.matchMedia('(hover: none)').matches) return
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
 
   const cursor = useDynamicCursor()
+  cursor.hydrate()
 
-  if (cursor.enabled.value) {
-    cursor.init()
-    document.documentElement.style.cursor = 'none'
-    const style = document.createElement('style')
-    style.id = 'dynamic-cursor-style'
-    style.textContent = 'html * { cursor: none !important; }'
-    document.head.appendChild(style)
-  } else {
-    document.documentElement.style.cursor = ''
+  const resolveHoverTarget = (node) => {
+    if (!node || !(node instanceof Element)) return null
+    return node.closest(HOVER_SELECTOR)
   }
 
-  const selector = 'a, button, input, textarea, select, [data-cursor], [data-cursor-text], [data-cursor-hover]'
-
-  const onEnter = (el) => {
+  const onMouseOver = (event) => {
     if (!cursor.enabled.value) return
-    const text = el.getAttribute('data-cursor-text') || el.getAttribute('data-cursor') || ''
+    const target = resolveHoverTarget(event.target)
+    if (!target) return
+    const text = target.getAttribute('data-cursor-text') || target.getAttribute('data-cursor') || ''
     cursor.setHover(true, text)
   }
 
-  const onLeave = () => {
+  const onMouseOut = (event) => {
+    const from = resolveHoverTarget(event.target)
+    if (!from) return
+    const to = resolveHoverTarget(event.relatedTarget)
+    if (from === to) return
     cursor.setHover(false, '')
     cursor.setPressed(false)
   }
 
-  const onDown = () => {
+  const onMouseDown = (event) => {
     if (!cursor.enabled.value) return
+    if (!resolveHoverTarget(event.target)) return
     cursor.setPressed(true)
   }
 
-  const onUp = () => cursor.setPressed(false)
-
-  let hoveredElement = null
-
-  const bindElement = (el) => {
-    if (el.__cursorBound) return
-    el.__cursorBound = true
-    el.addEventListener('mouseenter', () => {
-      onEnter(el)
-      hoveredElement = el
-    })
-    el.addEventListener('mouseleave', () => {
-      onLeave()
-      hoveredElement = null
-    })
-    el.addEventListener('mousedown', onDown)
-    el.addEventListener('mouseup', onUp)
-    el.addEventListener('mouseout', (e) => {
-      if (el.contains(e.relatedTarget)) return
-      onLeave()
-      hoveredElement = null
-    })
+  const onMouseUp = () => {
+    if (!cursor.enabled.value) return
+    cursor.setPressed(false)
   }
 
-  const removalObserver = new MutationObserver(() => {
-    if (hoveredElement && !document.body.contains(hoveredElement)) {
-      cursor.setHover(false, '')
-      cursor.setPressed(false)
-      hoveredElement = null
-    }
-  })
+  document.addEventListener('mouseover', onMouseOver, { passive: true })
+  document.addEventListener('mouseout', onMouseOut, { passive: true })
+  document.addEventListener('mousedown', onMouseDown, { passive: true })
+  document.addEventListener('mouseup', onMouseUp, { passive: true })
 
-  removalObserver.observe(document.body, { childList: true, subtree: true })
-
-  const observer = new MutationObserver(() => {
-    document.querySelectorAll(selector).forEach(bindElement)
-  })
-
-  observer.observe(document.body, { childList: true, subtree: true })
-
-  document.querySelectorAll(selector).forEach(bindElement)
-
-  const handleIframeEnter = () => {
+  const onIframeEnter = () => {
     document.documentElement.style.cursor = ''
     const style = document.getElementById('dynamic-cursor-style')
     if (style) style.remove()
     cursor.setHidden(true)
   }
 
-  const handleIframeLeave = () => {
-    if (cursor.enabled.value) {
-      document.documentElement.style.cursor = 'none'
-      const existingStyle = document.getElementById('dynamic-cursor-style')
-      if (!existingStyle) {
-        const style = document.createElement('style')
-        style.id = 'dynamic-cursor-style'
-        style.textContent = 'html * { cursor: none !important; }'
-        document.head.appendChild(style)
-      }
-      cursor.setHidden(false)
+  const onIframeLeave = () => {
+    if (!cursor.enabled.value) return
+    document.documentElement.style.cursor = 'none'
+    if (!document.getElementById('dynamic-cursor-style')) {
+      const style = document.createElement('style')
+      style.id = 'dynamic-cursor-style'
+      style.textContent = 'html, body, a, button, input, textarea, select { cursor: none !important; }'
+      document.head.appendChild(style)
     }
+    cursor.setHidden(false)
   }
 
   const bindIframe = (iframe) => {
     if (iframe.__cursorIframeBound) return
     iframe.__cursorIframeBound = true
-    iframe.addEventListener('mouseenter', handleIframeEnter)
-    iframe.addEventListener('mouseleave', handleIframeLeave)
+    iframe.addEventListener('mouseenter', onIframeEnter)
+    iframe.addEventListener('mouseleave', onIframeLeave)
   }
 
   document.querySelectorAll('iframe').forEach(bindIframe)

@@ -1,14 +1,7 @@
 export const useSiteData = () => {
   const workItems = [
     { name: 'Sinth', type: 'Reactive Language', status: 'Live' },
-    { name: 'Niquitia', type: 'Game In development', status: 'WIP' },
-    { name: 'The Projects Saga', type: 'Film series — YouTube playlist', status: 'Ongoing' }
-  ]
-
-  const filmItems = [
-    { title: 'The Projects Saga', meta: 'Playlist · Ongoing', url: 'https://www.youtube.com/watch?v=SDsw1m5_pWQ&list=PLXEG7VI6VCKWJDKdB7kc8WaSloREbPLvI' },
-    { title: 'Episode I', meta: 'Entry 01', url: 'https://www.youtube.com/watch?v=SDsw1m5_pWQ' },
-    { title: 'Full playlist →', meta: '', url: 'https://www.youtube.com/watch?v=SDsw1m5_pWQ&list=PLXEG7VI6VCKWJDKdB7kc8WaSloREbPLvI' }
+    { name: 'Niquitia', type: 'Game in development', status: 'WIP' }
   ]
 
   const moreItems = [
@@ -17,5 +10,5 @@ export const useSiteData = () => {
     { label: 'Coming', title: 'Watch this space', body: 'New experiments, projects, surprises. Stay tuned!' }
   ]
 
-  return { workItems, filmItems, moreItems }
+  return { workItems, moreItems }
 }

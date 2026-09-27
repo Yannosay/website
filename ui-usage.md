@@ -1,4 +1,6 @@
-# UI Usage Examples
+# UI Usage Examples for YP Website UI Kit
+
+## Just some usage examples for clarity...
 
 ---
 

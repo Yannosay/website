@@ -1,45 +1,43 @@
 export default defineNuxtPlugin((nuxtApp) => {
   const router = useRouter()
 
-  const isInViewport = (el: Element, offset = 0) => {
-    const rect = el.getBoundingClientRect()
-    return rect.top < window.innerHeight - offset && rect.bottom > 0
-  }
+  document.documentElement.classList.add('js-reveal-ready')
 
-  const revealAll = () => {
-    document.querySelectorAll('.reveal:not(.reveal-visible)').forEach(el => {
-      if (isInViewport(el, 40)) {
-        el.classList.add('reveal-visible')
-      }
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+  if (reducedMotion) return
+
+  let observer: IntersectionObserver | null = null
+
+  const attach = () => {
+    if (observer) observer.disconnect()
+    observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('reveal-visible')
+            observer?.unobserve(entry.target)
+          }
+        }
+      },
+      { rootMargin: '0px 0px -10% 0px', threshold: 0.05 }
+    )
+    document.querySelectorAll('.reveal:not(.reveal-visible)').forEach((el) => {
+      observer?.observe(el)
     })
   }
 
-  const resetAll = () => {
-    document.querySelectorAll('.reveal-visible').forEach(el => el.classList.remove('reveal-visible'))
+  const reset = () => {
+    document.querySelectorAll('.reveal-visible').forEach((el) => el.classList.remove('reveal-visible'))
   }
 
-  let ticking = false
-  const onScroll = () => {
-    if (!ticking) {
-      requestAnimationFrame(() => {
-        revealAll()
-        ticking = false
-      })
-      ticking = true
-    }
-  }
-
-  nuxtApp.hooks.hook('app:suspense:resolve', () => {
+  const scheduleAttach = () => {
     requestAnimationFrame(() => {
-      resetAll()
-      revealAll()
+      reset()
+      attach()
     })
-  })
+  }
 
-  router.afterEach(() => {
-    resetAll()
-    requestAnimationFrame(() => revealAll())
-  })
-
-  window.addEventListener('scroll', onScroll, { passive: true })
+  nuxtApp.hooks.hook('app:suspense:resolve', scheduleAttach)
+  router.afterEach(scheduleAttach)
+  scheduleAttach()
 })

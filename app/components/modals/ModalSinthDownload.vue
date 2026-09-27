@@ -1,21 +1,22 @@
 <template>
-  <div class="flex flex-col gap-6">
+  <div class="sinth-download">
     <div>
-      <h3 class="text-lg font-medium text-white">{{ $t('modal.sinthDownload.title', { package }) }}</h3>
-      <p class="text-sm text-white/50 mt-2">{{ $t('modal.sinthDownload.description') }}</p>
+      <h3 class="sinth-download__title">{{ $t('modal.sinthDownload.title', { package }) }}</h3>
+      <p class="sinth-download__description">{{ $t('modal.sinthDownload.description') }}</p>
     </div>
-    <div class="flex gap-3 justify-end">
+    <div class="sinth-download__actions">
       <button
+        type="button"
         @click="emit('close')"
-        class="px-4 py-2 text-sm text-white/50 hover:text-white transition-colors"
+        class="sinth-download__btn sinth-download__btn--cancel"
       >
         {{ $t('modal.sinthDownload.cancel') }}
       </button>
       <a
-        href="https://npmjs.com/package/@yannosay/sinth"
+        href="https://www.npmjs.com/package/@yannosay/sinth"
         target="_blank"
         rel="noopener noreferrer"
-        class="px-5 py-2 text-sm font-medium bg-white text-black rounded-lg hover:bg-white/90 transition-colors inline-block text-center"
+        class="sinth-download__btn sinth-download__btn--primary"
       >
         {{ $t('modal.sinthDownload.download') }}
       </a>
@@ -24,6 +25,27 @@
 </template>
 
 <script setup>
-defineProps({ package: String })
+defineProps({
+  package: { type: String, default: '' }
+})
 const emit = defineEmits(['close'])
 </script>
+
+<style lang="scss" scoped>
+@use '~/assets/css/components/modal' as modal;
+
+.sinth-download {
+  @include modal.modal-container;
+
+  &__title { @include modal.modal-title; }
+  &__description { @include modal.modal-description; }
+  &__actions { @include modal.modal-actions; }
+
+  &__btn {
+    @include modal.modal-btn;
+
+    &--cancel { @include modal.modal-btn-cancel; }
+    &--primary { @include modal.modal-btn-primary; }
+  }
+}
+</style>

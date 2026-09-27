@@ -11,6 +11,7 @@
     },
     "language": {
       "heading": "Sprache",
+      "warning": "Experimentell — Fehler können auftreten.",
       "display": {
         "label": "Anzeigesprache",
         "description": "Wähle deine bevorzugte Sprache"
@@ -21,10 +22,21 @@
       }
     }
   },
+  "common": {
+    "loading": "Wird geladen...",
+    "retry": "Erneut versuchen",
+    "skipToContent": "Zum Inhalt springen",
+    "error": {
+      "newsList": "Ankündigungen konnten nicht geladen werden.",
+      "newsArticle": "Dieser Artikel konnte nicht geladen werden.",
+      "notFound": "Seite nicht gefunden.",
+      "serverError": "Etwas ist schiefgelaufen.",
+      "goHome": "Zur Startseite"
+    }
+  },
   "home": {
     "hero": {
       "download": "Sinth herunterladen",
-      "screensaver": "Bildschirmschoner",
       "discord": "Discord"
     },
     "work": {
@@ -34,36 +46,96 @@
     },
     "sinth": {
       "eyebrow": "Vorgestelltes Tool",
-      "tagline": "\"HTML, aber sooo einfach!\"",
-      "description": "Eine deklarative, reaktive Sprache, die direkt zu HTML kompiliert. Zwei-Wege-Bindung in einer Zeile. Logik und UI nebeneinander. Kein useState, onChange oder e.target.value.",
+      "tagline": "Sinth ist nicht so schwer",
+      "description": "Eine neue deklarative, reaktive Sprache für das Web. Wie HTML, nur besser.",
       "npm": "Herunterladen auf NPM",
       "github": "GitHub",
-      "discord": "Discord"
+      "discord": "Discord",
+      "watchVideo": "Das Einführungsvideo ansehen"
     },
     "news": {
       "eyebrow": "Bleib informiert",
       "heading": "Neueste Nachrichten.",
       "viewAll": "Alle Ankündigungen anzeigen →",
-      "readMore": "Weiterlesen"
-    },
-    "films": {
-      "eyebrow": "Film",
-      "heading": "Die Projekte",
-      "headingEm": "Saga.",
-      "description": "Eine fortlaufende filmische Serie. Jeder Eintrag fängt ein anderes Projekt, einen Moment oder eine Idee ein — roh, ungefiltert, völlig unabhängig.",
-      "watch": "Playlist ansehen"
+      "readMore": "Weiterlesen →",
+      "empty": "Noch keine Ankündigungen.",
+      "lastUpdated": "Letztes Update {time}",
+      "featured": "Vorgestellt"
     },
     "more": {
       "eyebrow": "Alles andere",
       "heading": "Und noch viel mehr."
     }
   },
-  "modal": {
-  "sinthDownload": {
-    "title": "{package} herunterladen",
-    "description": "Dies öffnet die NPM-Website.",
-    "cancel": "Abbrechen",
-    "download": "Herunterladen auf NPM"
+  "pages": {
+    "games": {
+      "eyebrow": "Spiele",
+      "heading": "Unsere Spiele",
+      "lede": "Interaktive Erlebnisse mit Sorgfalt gebaut. Derzeit in Entwicklung.",
+      "status": "In Entwicklung",
+      "niquitia": "Ein Spiel, das sich derzeit in Entwicklung befindet. Mehr, sobald es bereit ist."
+    },
+    "movies": {
+      "eyebrow": "Filme",
+      "heading": "Unsere Filme",
+      "lede": "Filmische Arbeit in Produktion. Details folgen.",
+      "status": "In Produktion"
+    },
+    "illustrations": {
+      "eyebrow": "Illustrationen",
+      "heading": "Unsere Illustrationen",
+      "lede": "Zeichnungen, Konzepte und Design. Bald verfügbar.",
+      "status": "Bald verfügbar"
+    },
+    "youtube": {
+      "eyebrow": "YouTube",
+      "heading": "Unser YouTube",
+      "lede": "Videos, Rollenspiele und Behind-the-Scenes. Neue Uploads, sobald sie fertig sind.",
+      "visit": "Kanal besuchen"
     }
+  },
+  "news": {
+    "title": "Neuigkeiten",
+    "back": "← Zurück zu den Ankündigungen",
+    "readingTime": "{minutes} Min. Lesezeit",
+    "by": "Von {author}",
+    "featured": "Vorgestellt",
+    "featuredHeading": "Vorgestellt",
+    "moreArticles": "Weitere Artikel",
+    "rss": "RSS-Feed",
+    "previous": "Zurück",
+    "next": "Weiter",
+    "share": {
+      "heading": "Artikel teilen",
+      "copied": "Link kopiert",
+      "aria": {
+        "x": "Auf X teilen",
+        "email": "Per E-Mail teilen",
+        "copy": "Link in die Zwischenablage kopieren",
+        "native": "Über Gerät teilen"
+      }
+    }
+  },
+  "tools": {
+    "eyebrow": "Tools",
+    "heading": "Unsere Tools",
+    "lede": "Kostenlose Software und Werkzeuge von Yannosay Productions.",
+    "download": "Hier herunterladen",
+    "github": "Auf GitHub ansehen",
+    "docsHeading": "Unsere offizielle Dokumentation",
+    "docsLink": "Docs ansehen"
+  },
+  "modal": {
+    "sinthDownload": {
+      "title": "{package} herunterladen",
+      "description": "Dies öffnet die NPM-Website.",
+      "cancel": "Abbrechen",
+      "download": "Herunterladen auf NPM"
+    },
+    "close": "Dialog schließen"
+  },
+  "footer": {
+    "rights": "© {year} Yannosay Productions",
+    "credit": "Powered with Sinth"
   }
 }

@@ -1,15 +1,17 @@
 <template>
-  <div class="progress">
+  <div class="progress" role="group" :aria-label="groupLabel">
     <div
       v-for="(bar, index) in bars"
       :key="index"
       class="bar"
+      role="img"
+      :aria-label="`${bar.name}: ${bar.percentage}%`"
       :style="{
         height: `calc(150px * ${bar.percentage / 100})`,
         background: `linear-gradient(${bar.color || defaultColor}, transparent 100%)`
       }"
     >
-      <div class="text">
+      <div class="text" aria-hidden="true">
         <span>{{ bar.name }}</span>
         {{ bar.percentage }}%
       </div>
@@ -18,25 +20,24 @@
 </template>
 
 <script setup>
-const props = defineProps({
+defineProps({
   bars: {
     type: Array,
     required: true,
     validator: (value) => {
       if (!Array.isArray(value)) return false
-      return value.every(bar => 
-        bar && 
-        typeof bar.name === 'string' && 
-        typeof bar.percentage === 'number' &&
-        bar.percentage >= 0 &&
-        bar.percentage <= 100
+      return value.every(
+        (bar) =>
+          bar &&
+          typeof bar.name === 'string' &&
+          typeof bar.percentage === 'number' &&
+          bar.percentage >= 0 &&
+          bar.percentage <= 100
       )
     }
   },
-  defaultColor: {
-    type: String,
-    default: '#888888'
-  }
+  defaultColor: { type: String, default: '#888888' },
+  groupLabel: { type: String, default: 'Progress' }
 })
 </script>
 
@@ -54,7 +55,7 @@ const props = defineProps({
   border-radius: 3mm;
   position: relative;
   animation: progress 1s ease-out;
-  transition: all 0.3s ease;
+  transition: transform 0.3s ease;
 }
 
 .text {
@@ -64,8 +65,8 @@ const props = defineProps({
   width: 100%;
   height: fit-content;
   transform: translate(-50%, 0);
-  color: white;
-  font-family: 'Poppins', sans-serif;
+  color: #fff;
+  font-family: var(--font-sans);
   font-size: 12px;
   font-weight: 500;
   display: flex;
@@ -75,28 +76,24 @@ const props = defineProps({
   white-space: nowrap;
 }
 
-.text span {
-  font-weight: 200;
-  font-size: 11px;
-  opacity: 0.8;
-}
+.text span { font-weight: 200; font-size: 11px; opacity: 0.8; }
 
 .bar::before {
   position: absolute;
-  content: "";
+  content: '';
   top: 20px;
   left: 50%;
   transform: translate(-50%, 0);
   width: 8px;
   height: 8px;
-  background: white;
+  background: #fff;
   border-radius: 50%;
   z-index: 1;
 }
 
 .text::before {
   position: absolute;
-  content: "";
+  content: '';
   bottom: -55px;
   left: 50%;
   transform: translate(-50%, 0);
@@ -106,15 +103,11 @@ const props = defineProps({
   height: 55px;
 }
 
-@keyframes progress {
-  from {
-    height: 0;
-  }
-}
+@keyframes progress { from { height: 0; } }
 
 .bar:hover::after {
   position: absolute;
-  content: "";
+  content: '';
   top: 0;
   left: 0;
   width: 100%;
@@ -133,16 +126,15 @@ const props = defineProps({
 }
 
 @keyframes move {
-  0% {
-    background-position: 100% 0;
-  }
-  100% {
-    background-position: 0 0;
-  }
+  0% { background-position: 100% 0; }
+  100% { background-position: 0 0; }
 }
 
-.bar:hover {
-  transform: scale(1.02);
-  transition: transform 0.2s ease;
+.bar:hover { transform: scale(1.02); }
+
+@media (prefers-reduced-motion: reduce) {
+  .bar { animation: none; }
+  .bar:hover { transform: none; }
+  .bar:hover::after { animation: none; }
 }
 </style>

@@ -11,6 +11,7 @@
     },
     "language": {
       "heading": "Language",
+      "warning": "Experimental — errors may occur.",
       "display": {
         "label": "Display Language",
         "description": "Select your preferred language"
@@ -21,10 +22,21 @@
       }
     }
   },
+  "common": {
+    "loading": "Loading...",
+    "retry": "Try again",
+    "skipToContent": "Skip to content",
+    "error": {
+      "newsList": "Unable to load announcements.",
+      "newsArticle": "Unable to load this article.",
+      "notFound": "Page not found.",
+      "serverError": "Something went wrong.",
+      "goHome": "Go home"
+    }
+  },
   "home": {
     "hero": {
       "download": "Download Sinth",
-      "screensaver": "Screensaver",
       "discord": "Discord"
     },
     "work": {
@@ -35,35 +47,95 @@
     "sinth": {
       "eyebrow": "Featured tool",
       "tagline": "Sinth Is Not That Hard",
-      "description": "A new declarative, reactive language made for web. Like HTML, just better. ",
+      "description": "A new declarative, reactive language made for web. Like HTML, just better.",
       "npm": "Download on NPM",
       "github": "GitHub",
-      "discord": "Discord"
+      "discord": "Discord",
+      "watchVideo": "Watch the introduction video"
     },
     "news": {
       "eyebrow": "Stay updated",
       "heading": "Latest news.",
       "viewAll": "View all announcements →",
-      "readMore": "Read more"
-    },
-    "films": {
-      "eyebrow": "Film",
-      "heading": "The Projects",
-      "headingEm": "Saga.",
-      "description": "An ongoing cinematic series. Each entry captures a different project, moment, or idea — raw, unfiltered, completely independent.",
-      "watch": "Watch the playlist"
+      "readMore": "Read more →",
+      "empty": "No announcements yet.",
+      "lastUpdated": "Last update {time}",
+      "featured": "Featured"
     },
     "more": {
       "eyebrow": "Everything else",
       "heading": "And much more."
     }
   },
-  "modal": {
-  "sinthDownload": {
-    "title": "Download {package}",
-    "description": "This will open the NPM Website.",
-    "cancel": "Cancel",
-    "download": "Download on NPM"
+  "pages": {
+    "games": {
+      "eyebrow": "Games",
+      "heading": "Our Games",
+      "lede": "Interactive experiences built with care. Currently in development.",
+      "status": "In Development",
+      "niquitia": "A game currently in development. More when it's ready."
+    },
+    "movies": {
+      "eyebrow": "Movies",
+      "heading": "Our Movies",
+      "lede": "Cinematic work in production. Details to follow.",
+      "status": "In Production"
+    },
+    "illustrations": {
+      "eyebrow": "Illustrations",
+      "heading": "Our Illustrations",
+      "lede": "Drawings, concepts, and design. Coming soon.",
+      "status": "Coming Soon"
+    },
+    "youtube": {
+      "eyebrow": "YouTube",
+      "heading": "Our YouTube",
+      "lede": "Videos, roleplays, and behind-the-scenes. New uploads when they're ready.",
+      "visit": "Visit channel"
     }
+  },
+  "news": {
+    "title": "News",
+    "back": "← Back to announcements",
+    "readingTime": "{minutes} min read",
+    "by": "By {author}",
+    "featured": "Featured",
+    "featuredHeading": "Featured",
+    "moreArticles": "More articles",
+    "rss": "RSS feed",
+    "previous": "Previous",
+    "next": "Next",
+    "share": {
+      "heading": "Share this article",
+      "copied": "Link copied",
+      "aria": {
+        "x": "Share on X",
+        "email": "Share via email",
+        "copy": "Copy link to clipboard",
+        "native": "Share via device"
+      }
+    }
+  },
+  "tools": {
+    "eyebrow": "Tools",
+    "heading": "Our Tools",
+    "lede": "Free software and utilities built by Yannosay Productions.",
+    "download": "Download here",
+    "github": "Visit on GitHub",
+    "docsHeading": "Our Official Documentation",
+    "docsLink": "View Docs"
+  },
+  "modal": {
+    "sinthDownload": {
+      "title": "Download {package}",
+      "description": "This will open the NPM Website.",
+      "cancel": "Cancel",
+      "download": "Download on NPM"
+    },
+    "close": "Close dialog"
+  },
+  "footer": {
+    "rights": "© {year} Yannosay Productions",
+    "credit": "Powered with Sinth"
   }
 }

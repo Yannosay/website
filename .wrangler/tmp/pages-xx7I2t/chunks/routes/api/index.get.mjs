@@ -1,0 +1,2 @@
+import{v as e,aR as t,b1 as r,q as s}from"../../_/nitro.mjs";import"node:buffer";import"node:timers";import"node:events";import"node:process";import"cloudflare:workers";const a=e(async e=>{t(e,"Cache-Control","no-store, must-revalidate");const a=r(),o=String(a.public.newsApi||"").replace(/\/$/,"");try{const e=await $fetch(`${o}/api/news`,{headers:{Accept:"application/json"}});return Array.isArray(e)?e:[]}catch{throw s({statusCode:502,statusMessage:"News API unavailable"})}});export{a as default};
+//# sourceMappingURL=index.get.mjs.map

@@ -1,30 +1,169 @@
 <template>
   <section class="news-article">
     <div v-if="pending" class="loading">
-      <div class="spinner" />
+      <div class="spinner" aria-hidden="true" />
+      <p class="sr-only">{{ $t('common.loading') }}</p>
     </div>
 
-    <div v-else-if="error" class="error-state">
-      <p>Unable to load this article.</p>
-      <NuxtLink to="/news" class="retry-btn">← Back to announcements</NuxtLink>
+    <div v-else-if="error || !article" class="error-state">
+      <p>{{ $t('common.error.newsArticle') }}</p>
+      <NuxtLink to="/news" class="retry-btn">{{ $t('news.back') }}</NuxtLink>
     </div>
 
-    <article v-else-if="article">
-      <NuxtLink to="/news" class="back-link">← Back to announcements</NuxtLink>
+    <article v-else>
+      <NuxtLink to="/news" class="back-link">{{ $t('news.back') }}</NuxtLink>
+
+      <figure class="banner">
+        <img
+          :src="article.banner"
+          :alt="article.bannerAlt || article.title"
+          width="1200"
+          height="675"
+          decoding="async"
+          fetchpriority="high"
+        />
+      </figure>
+
+      <div class="meta-row">
+        <span v-if="article.featured" class="badge">{{ $t('news.featured') }}</span>
+        <ul v-if="article.tags.length" class="tags" role="list">
+          <li v-for="tag in article.tags" :key="tag" class="tag">{{ tag }}</li>
+        </ul>
+      </div>
+
       <h1 class="title">{{ article.title }}</h1>
-      <time class="date" :datetime="article.date">
-        {{ formatDate(article.date) }}
-      </time>
-      <div class="content" v-html="renderedContent" />
+
+      <div class="byline">
+        <template v-if="article.author">
+          <span class="byline__author">{{ $t('news.by', { author: article.author }) }}</span>
+          <span class="byline__dot" aria-hidden="true">·</span>
+        </template>
+        <time :datetime="article.date">{{ formatLong(article.date) }}</time>
+        <template v-if="publishedTime">
+          <span class="byline__dot" aria-hidden="true">·</span>
+          <time :datetime="article.publishedAt || undefined">{{ publishedTime }}</time>
+        </template>
+        <template v-if="article.readingTimeMinutes">
+          <span class="byline__dot" aria-hidden="true">·</span>
+          <span>{{ $t('news.readingTime', { minutes: article.readingTimeMinutes }) }}</span>
+        </template>
+      </div>
+
+      <p v-if="updatedLine" class="updated">{{ updatedLine }}</p>
+
+      <div class="content" v-html="article.html" />
+
+      <ShareArticle :title="article.title" :slug="article.slug" />
     </article>
   </section>
 </template>
 
+<script setup lang="ts">
+import ShareArticle from '~/components/sections/news/ShareArticle.vue'
+
+type ArticlePayload = {
+  slug: string
+  title: string
+  date: string
+  publishedAt: string | null
+  updatedAt: string | null
+  excerpt: string
+  banner: string
+  bannerAlt: string
+  author: string | null
+  tags: string[]
+  featured: boolean
+  readingTimeMinutes: number | null
+  html: string
+}
+
+const props = defineProps({
+  slug: { type: String, required: true }
+})
+
+const { formatLong, formatTime, formatLongDateTime } = useDateFormat()
+const config = useRuntimeConfig()
+
+const { data: article, pending, error } = await useFetch<ArticlePayload>(`/api/news/${props.slug}`, {
+  key: `news-article-${props.slug}`
+})
+
+const publishedTime = computed(() => {
+  const iso = article.value?.publishedAt
+  if (!iso) return ''
+  if (iso.endsWith('T00:00:00Z')) return ''
+  return formatTime(iso)
+})
+
+const updatedLine = computed(() => {
+  const iso = article.value?.updatedAt
+  if (!iso) return ''
+  if (iso.endsWith('T00:00:00Z')) return ''
+  return `${formatLongDateTime(iso)}`
+})
+
+useCanonical(`/news/${props.slug}`)
+
+useHead({
+  title: () => article.value?.title
+    ? `${article.value.title} – Yannosay Productions`
+    : 'Announcement – Yannosay Productions',
+  meta: [
+    { name: 'description', content: () => article.value?.excerpt || '' },
+    { property: 'og:title', content: () => article.value?.title || 'Announcement' },
+    { property: 'og:description', content: () => article.value?.excerpt || '' },
+    { property: 'og:type', content: 'article' },
+    { property: 'og:image', content: () => article.value?.banner || '/og/og-default.png' }
+  ]
+})
+
+useHead(() => {
+  if (!article.value) return {}
+  const base = String(config.public.siteUrl || '').replace(/\/$/, '')
+  const banner = article.value.banner
+    ? article.value.banner.startsWith('http')
+      ? article.value.banner
+      : `${base}${article.value.banner}`
+    : `${base}/og/og-default.png`
+  return {
+    script: [
+      {
+        type: 'application/ld+json',
+        innerHTML: JSON.stringify({
+          '@context': 'https://schema.org',
+          '@type': 'Article',
+          headline: article.value.title,
+          datePublished: article.value.publishedAt || article.value.date,
+          dateModified: article.value.updatedAt || article.value.publishedAt || article.value.date,
+          image: banner,
+          author: {
+            '@type': article.value.author ? 'Person' : 'Organization',
+            name: article.value.author || 'Yannosay Productions'
+          },
+          publisher: {
+            '@type': 'Organization',
+            name: 'Yannosay Productions',
+            logo: {
+              '@type': 'ImageObject',
+              url: `${base}/assets/images/logo/logo.png`
+            }
+          },
+          mainEntityOfPage: {
+            '@type': 'WebPage',
+            '@id': `${base}/news/${article.value.slug}`
+          }
+        })
+      }
+    ]
+  }
+})
+</script>
+
 <style scoped>
 .news-article {
   min-height: 100svh;
-  padding: 6rem 2rem;
-  max-width: 44rem;
+  padding: clamp(7rem, 11vw, 10rem) 2rem clamp(6rem, 10vw, 9rem);
+  max-width: 47rem;
   margin: 0 auto;
 }
 
@@ -33,6 +172,18 @@
   align-items: center;
   justify-content: center;
   min-height: 60svh;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }
 
 .spinner {
@@ -45,9 +196,7 @@
 }
 
 @keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
+  to { transform: rotate(360deg); }
 }
 
 .error-state {
@@ -65,9 +214,9 @@
 .retry-btn {
   display: inline-block;
   font-size: 0.875rem;
-  color: rgba(255, 255, 255, 0.45);
+  color: rgba(255, 255, 255, 0.55);
   text-decoration: none;
-  margin-bottom: 2.5rem;
+  margin-bottom: 3.75rem;
   transition: color 0.2s;
 }
 
@@ -76,49 +225,137 @@
   color: var(--white);
 }
 
+.banner {
+  margin: 0 0 3.75rem;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  border-radius: 1rem;
+  background: #141414;
+}
+
+.banner img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.meta-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.6rem;
+  margin-bottom: 1.35rem;
+}
+
+.badge {
+  font-size: 0.55rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--white);
+  background: rgba(255, 255, 255, 0.08);
+  padding: 0.25rem 0.6rem;
+  border-radius: 999px;
+}
+
+.tags {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.tag {
+  font-size: 0.6rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 0.22rem 0.65rem;
+  border-radius: 999px;
+}
+
 .title {
   font-family: var(--font-sans);
   font-weight: 900;
-  font-size: clamp(2.5rem, 6vw, 4rem);
-  letter-spacing: -0.04em;
-  line-height: 1.08;
+  font-size: clamp(2.5rem, 5.5vw, 3.85rem);
+  letter-spacing: -0.035em;
+  line-height: 1.05;
+  overflow-wrap: anywhere;
 }
 
-.date {
-  display: block;
-  margin-top: 0.6rem;
-  font-size: 0.875rem;
+.byline {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.45rem;
+  margin-top: 1.6rem;
+  font-size: 0.85rem;
   color: var(--muted);
 }
 
+.byline__author {
+  color: rgba(255, 255, 255, 0.75);
+  font-weight: 500;
+}
+
+.byline__dot {
+  color: rgba(255, 255, 255, 0.2);
+}
+
+.updated {
+  margin-top: 0.75rem;
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.4);
+  font-style: italic;
+}
+
 .content {
-  margin-top: 2.5rem;
-  line-height: 1.75;
-  color: rgba(255, 255, 255, 0.8);
-  font-size: 1.05rem;
+  margin-top: 4.5rem;
+  line-height: 1.9;
+  color: rgba(255, 255, 255, 0.82);
+  font-size: 1.0625rem;
+  letter-spacing: 0.005em;
+  overflow-wrap: anywhere;
 }
 
 .content :deep(h2) {
   font-family: var(--font-sans);
   font-weight: 700;
-  font-size: 1.75rem;
+  font-size: 1.9rem;
   letter-spacing: -0.02em;
-  margin-top: 2.5rem;
-  margin-bottom: 0.75rem;
+  line-height: 1.2;
+  margin-top: 4.5rem;
+  margin-bottom: 1.35rem;
   color: var(--white);
+}
+
+.content :deep(h2:first-child) {
+  margin-top: 0;
 }
 
 .content :deep(h3) {
   font-family: var(--font-sans);
   font-weight: 600;
-  font-size: 1.35rem;
-  margin-top: 2rem;
-  margin-bottom: 0.5rem;
+  font-size: 1.45rem;
+  line-height: 1.25;
+  margin-top: 3.25rem;
+  margin-bottom: 1rem;
+  color: var(--white);
+}
+
+.content :deep(h4) {
+  font-family: var(--font-sans);
+  font-weight: 600;
+  font-size: 1.15rem;
+  line-height: 1.3;
+  margin-top: 2.5rem;
+  margin-bottom: 0.75rem;
   color: var(--white);
 }
 
 .content :deep(p) {
-  margin-bottom: 1rem;
+  margin-bottom: 1.6rem;
 }
 
 .content :deep(strong) {
@@ -126,38 +363,101 @@
   color: var(--white);
 }
 
+.content :deep(em) {
+  font-style: italic;
+}
+
 .content :deep(a) {
   color: var(--white);
   text-decoration: underline;
   text-underline-offset: 3px;
+  overflow-wrap: anywhere;
 }
 
 .content :deep(a:hover) {
   opacity: 0.8;
 }
 
+.content :deep(ul),
+.content :deep(ol) {
+  padding-left: 1.9rem;
+  margin-bottom: 1.75rem;
+}
+
 .content :deep(ul) {
   list-style: disc;
-  padding-left: 1.5rem;
-  margin-bottom: 1rem;
 }
 
 .content :deep(ol) {
   list-style: decimal;
-  padding-left: 1.5rem;
-  margin-bottom: 1rem;
 }
 
 .content :deep(li) {
-  margin-bottom: 0.4rem;
+  margin-bottom: 0.75rem;
+  line-height: 1.75;
+}
+
+.content :deep(li > ul),
+.content :deep(li > ol) {
+  margin-top: 0.7rem;
+  margin-bottom: 0;
+}
+
+.content :deep(ul:has(> li > input[type="checkbox"])) {
+  list-style: none;
+  padding-left: 0;
+}
+
+.content :deep(li:has(> input[type="checkbox"])) {
+  list-style: none;
+  position: relative;
+  padding-left: 1.9rem;
+  margin-bottom: 0.85rem;
+  line-height: 1.6;
+}
+
+.content :deep(input[type="checkbox"]) {
+  appearance: none;
+  -webkit-appearance: none;
+  position: absolute;
+  left: 0;
+  top: 0.32em;
+  width: 1.15rem;
+  height: 1.15rem;
+  margin: 0;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: 0.3rem;
+  background: rgba(255, 255, 255, 0.03);
+  cursor: default;
+  transition: background 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.content :deep(input[type="checkbox"]:checked) {
+  background: linear-gradient(135deg, #ffb1db 0%, #ffe5f3 100%);
+  border-color: #ffe5f3;
+  box-shadow: 0 0 12px rgba(255, 177, 219, 0.3);
+}
+
+.content :deep(input[type="checkbox"]:checked::after) {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 47%;
+  width: 5px;
+  height: 9px;
+  border: solid #0a0a0a;
+  border-width: 0 2px 2px 0;
+  transform: translate(-50%, -50%) rotate(45deg);
 }
 
 .content :deep(blockquote) {
   border-left: 2px solid rgba(255, 255, 255, 0.2);
-  padding-left: 1.25rem;
-  margin: 1.5rem 0;
-  color: rgba(255, 255, 255, 0.6);
+  padding-left: 1.75rem;
+  margin: 2.75rem 0;
+  color: rgba(255, 255, 255, 0.68);
   font-style: italic;
+  font-size: 1.0625rem;
+  line-height: 1.85;
 }
 
 .content :deep(code) {
@@ -166,166 +466,179 @@
   padding: 0.15rem 0.4rem;
   border-radius: 4px;
   font-size: 0.9em;
+  overflow-wrap: anywhere;
 }
 
 .content :deep(pre) {
   background: rgba(255, 255, 255, 0.03);
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 10px;
-  padding: 1.5rem;
+  padding: 1.5rem 1.75rem;
   overflow-x: auto;
-  margin: 1.5rem 0;
+  -webkit-overflow-scrolling: touch;
+  margin: 2.75rem 0;
+  max-width: 100%;
 }
 
 .content :deep(pre code) {
   background: none;
   padding: 0;
-  font-size: 0.875rem;
-  line-height: 1.7;
+  font-size: 0.85rem;
+  line-height: 1.75;
   color: rgba(255, 255, 255, 0.85);
+  white-space: pre;
+  overflow-wrap: normal;
+}
+
+.content :deep(table) {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 2.5rem 0;
+  font-size: 0.9rem;
+  display: block;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.content :deep(thead) {
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.content :deep(th),
+.content :deep(td) {
+  text-align: left;
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.content :deep(th) {
+  font-weight: 600;
+  color: var(--white);
 }
 
 .content :deep(hr) {
   border: none;
   border-top: 1px solid rgba(255, 255, 255, 0.08);
-  margin: 2rem 0;
+  margin: 4rem 0;
+}
+
+.content :deep(.media-figure) {
+  margin: 3rem 0;
+}
+
+.content :deep(.media-figure img),
+.content :deep(.media-figure video) {
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  border-radius: 10px;
+  display: block;
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.content :deep(figcaption) {
+  margin-top: 0.9rem;
+  font-size: 0.82rem;
+  color: var(--muted);
+  text-align: center;
+  font-style: italic;
+  line-height: 1.55;
+}
+
+.content :deep(.media-embed) {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  margin: 3rem 0;
+  border-radius: 10px;
+  overflow: hidden;
+  background: #0a0a0a;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.content :deep(.media-embed iframe) {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  display: block;
 }
 
 .content :deep(img) {
   max-width: 100%;
-  border-radius: 8px;
-  margin: 1.5rem 0;
+  height: auto;
+  border-radius: 10px;
+  display: block;
+  background: rgba(255, 255, 255, 0.02);
 }
 
-.content :deep(.hljs-string) {
-  color: #a5d6ff;
+.content :deep(p > img:only-child) {
+  margin: 3rem 0;
 }
 
-.content :deep(.hljs-number) {
-  color: #ffab70;
-}
+.content :deep(.hljs-string) { color: #a5d6ff; }
+.content :deep(.hljs-number),
+.content :deep(.hljs-literal) { color: #ffab70; }
+.content :deep(.hljs-keyword),
+.content :deep(.hljs-attr) { color: #c792ea; }
+.content :deep(.hljs-title) { color: #82aaff; }
+.content :deep(.hljs-type),
+.content :deep(.hljs-built_in) { color: #ffcb6b; }
+.content :deep(.hljs-comment) { color: rgba(255, 255, 255, 0.3); font-style: italic; }
+.content :deep(.hljs-punctuation) { color: rgba(255, 255, 255, 0.5); }
+.content :deep(.hljs-property) { color: #80cbc4; }
 
-.content :deep(.hljs-literal) {
-  color: #ffab70;
-}
+@media (max-width: 640px) {
+  .news-article {
+    padding: 6rem 1.4rem 5rem;
+  }
 
-.content :deep(.hljs-keyword) {
-  color: #c792ea;
-}
+  .back-link {
+    margin-bottom: 2.5rem;
+  }
 
-.content :deep(.hljs-title) {
-  color: #82aaff;
-}
+  .banner {
+    margin-bottom: 2.5rem;
+  }
 
-.content :deep(.hljs-type) {
-  color: #ffcb6b;
-}
+  .content {
+    margin-top: 3rem;
+    font-size: 1rem;
+    line-height: 1.8;
+  }
 
-.content :deep(.hljs-attr) {
-  color: #c792ea;
-}
+  .content :deep(h2) {
+    margin-top: 3rem;
+    font-size: 1.6rem;
+  }
 
-.content :deep(.hljs-built_in) {
-  color: #ffcb6b;
-}
+  .content :deep(h3) {
+    margin-top: 2.25rem;
+    font-size: 1.25rem;
+  }
 
-.content :deep(.hljs-comment) {
-  color: rgba(255, 255, 255, 0.3);
-  font-style: italic;
-}
+  .content :deep(p) {
+    margin-bottom: 1.35rem;
+  }
 
-.content :deep(.hljs-punctuation) {
-  color: rgba(255, 255, 255, 0.5);
-}
+  .content :deep(blockquote) {
+    padding-left: 1.2rem;
+    font-size: 1rem;
+    margin: 2rem 0;
+  }
 
-.content :deep(.hljs-property) {
-  color: #80cbc4;
-}
+  .content :deep(pre) {
+    padding: 1.15rem 1.25rem;
+    margin: 1.85rem 0;
+  }
 
-.content :deep(button) {
-  background: rgba(255, 255, 255, 0.08);
-  color: var(--white);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  padding: 0.5rem 1.25rem;
-  border-radius: 999px;
-  font-size: 0.875rem;
-  cursor: pointer;
-  transition: background 0.2s;
-}
+  .content :deep(hr) {
+    margin: 2.75rem 0;
+  }
 
-.content :deep(button:hover) {
-  background: rgba(255, 255, 255, 0.14);
+  .content :deep(.media-embed),
+  .content :deep(.media-figure) {
+    margin: 2rem 0;
+  }
 }
 </style>
-
-<script setup>
-
-
-import { marked } from 'marked'
-import { markedHighlight } from 'marked-highlight'
-import hljs from 'highlight.js/lib/core'
-import json from 'highlight.js/lib/languages/json'
-import javascript from 'highlight.js/lib/languages/javascript'
-import typescript from 'highlight.js/lib/languages/typescript'
-import bash from 'highlight.js/lib/languages/bash'
-import css from 'highlight.js/lib/languages/css'
-import xml from 'highlight.js/lib/languages/xml'
-
-
-hljs.registerLanguage('json', json)
-hljs.registerLanguage('javascript', javascript)
-hljs.registerLanguage('js', javascript)
-hljs.registerLanguage('typescript', typescript)
-hljs.registerLanguage('ts', typescript)
-hljs.registerLanguage('bash', bash)
-hljs.registerLanguage('sh', bash)
-hljs.registerLanguage('css', css)
-hljs.registerLanguage('html', xml)
-hljs.registerLanguage('xml', xml)
-
-marked.use(
-  markedHighlight({
-    langPrefix: 'hljs language-',
-    highlight(code, lang) {
-      if (lang && hljs.getLanguage(lang)) {
-        return hljs.highlight(code, { language: lang }).value
-      }
-      return code
-    }
-  })
-)
-
-marked.setOptions({
-  breaks: true,
-  gfm: true,
-  html: true
-})
-
-const props = defineProps({
-  slug: { type: String, required: true }
-})
-
-const { data: article, pending, error } = await useAsyncData(
-  `news-article-${props.slug}`,
-  () =>
-    $fetch(`/api/news/${props.slug}`, {
-      baseURL: 'https://news-api.yp-worker.workers.dev',
-      headers: { Accept: 'application/json' }
-    }),
-  { server: true }
-)
-
-const renderedContent = computed(() => {
-  if (!article.value?.content) return ''
-  return marked.parse(article.value.content)
-})
-
-function formatDate(dateStr) {
-  if (!dateStr || !/^\d{4}-\d{2}-\d{2}$/.test(dateStr)) return dateStr
-  return new Date(dateStr).toLocaleDateString('en-US', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric'
-  })
-}
-</script>
