@@ -84,7 +84,8 @@ const footerLinks = [
   { to: '/movies', label: 'Movies' },
   { to: '/tools', label: 'Tools' },
   { to: '/illustrations', label: 'Illustrations' },
-  { to: '/youtube', label: 'YouTube' }
+  { to: '/youtube', label: 'YouTube' },
+  { to: '/ai', label: 'AI Policy' }
 ]
 
 const currentYear = computed(() => new Date().getFullYear())

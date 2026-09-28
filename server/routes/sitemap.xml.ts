@@ -28,6 +28,7 @@ export default defineEventHandler(async (event) => {
   push('/', 'weekly', '1.0')
   push('/news', 'weekly', '0.8')
   push('/tools', 'monthly', '0.8')
+  push('/ai', 'monthly', '0.5')
   for (const slug of toolSlugs) push(`/tools/${slug}`, 'monthly', '0.6')
   for (const item of newsItems) {
     const slug = String(item.slug)

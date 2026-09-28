@@ -30,6 +30,7 @@ export default defineNuxtConfig({
     '/movies': { prerender: true },
     '/illustrations': { prerender: true },
     '/youtube': { prerender: true },
+    '/ai': { prerender: true },
     '/rss.xml': { swr: 300 },
     '/sitemap.xml': { swr: 3600 }
   },
