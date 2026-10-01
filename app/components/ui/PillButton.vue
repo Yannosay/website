@@ -1,18 +1,24 @@
 <template>
-  <component
-    :is="href ? 'a' : 'button'"
-    :href="href || undefined"
-    :target="href && external ? '_blank' : undefined"
-    :rel="href && external ? 'noopener noreferrer' : undefined"
-    :type="href ? undefined : 'button'"
+  <NuxtLink v-if="to" :to="to" :class="['pill', variant]">
+    <slot />
+  </NuxtLink>
+  <a
+    v-else-if="href"
+    :href="href"
+    :target="external ? '_blank' : undefined"
+    :rel="external ? 'noopener noreferrer' : undefined"
     :class="['pill', variant]"
   >
     <slot />
-  </component>
+  </a>
+  <button v-else type="button" :class="['pill', variant]">
+    <slot />
+  </button>
 </template>
 
 <script setup>
 defineProps({
+  to: { type: String, default: '' },
   href: { type: String, default: '' },
   variant: { type: String, default: 'ghost' },
   external: { type: Boolean, default: true }

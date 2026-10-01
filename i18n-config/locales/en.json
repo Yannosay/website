@@ -36,8 +36,8 @@
   },
   "home": {
     "hero": {
-      "download": "Download Sinth",
-      "discord": "Discord"
+      "download": "Explore Tools",
+      "discord": "View Latest News"
     },
     "work": {
       "eyebrow": "Selected work",
@@ -137,5 +137,97 @@
   "footer": {
     "rights": "© {year} Yannosay Productions",
     "credit": "Powered with Sinth"
+  },
+  "explore": {
+    "eyebrow": "Explore",
+    "heading": "What we offer.",
+    "lede": "Everything Yannosay Productions makes, gathered in one place. Pick a direction and dive in.",
+    "sections": {
+      "coding": {
+        "title": "Coding made easy.",
+        "lede": "Language tools and services for builders."
+      },
+      "entertainment": {
+        "title": "Entertainment for everyone.",
+        "lede": "Games, films, and videos from the studio."
+      },
+      "creative": {
+        "title": "Art and community.",
+        "lede": "Illustrations, news, and the people behind everything."
+      }
+    },
+    "entries": {
+      "sinth": {
+        "name": "Sinth",
+        "desc": "A reactive language for building user interfaces. Compiles to optimized JavaScript with no runtime overhead."
+      },
+      "sinthIde": {
+        "name": "Sinth IDE",
+        "desc": "A desktop environment for the Sinth language with compiler version management and in-place updates."
+      },
+      "newsApi": {
+        "name": "News API",
+        "desc": "The public feed that powers announcements on this site. Open to read, no authentication."
+      },
+      "games": {
+        "name": "Games",
+        "desc": "Interactive experiences in development."
+      },
+      "movies": {
+        "name": "Movies",
+        "desc": "Cinematic work in production."
+      },
+      "youtube": {
+        "name": "YouTube",
+        "desc": "Videos, roleplays, and behind-the-scenes."
+      },
+      "illustrations": {
+        "name": "Illustrations",
+        "desc": "Drawings, concepts, and design."
+      },
+      "news": {
+        "name": "News",
+        "desc": "Announcements, releases, and project updates."
+      },
+      "community": {
+        "name": "Community",
+        "desc": "Join the Discord to talk about what we build."
+      }
+    },
+    "buttons": {
+      "npm": "NPM",
+      "github": "GitHub",
+      "docs": "Docs",
+      "endpoint": "Open endpoint",
+      "viewAll": "View all",
+      "youtube": "YouTube channel",
+      "readNews": "Read news",
+      "rss": "RSS feed",
+      "discord": "Join Discord",
+      "exploreTools": "Explore tools",
+      "downloadHere": "Download here",
+      "visitGithub": "Visit on GitHub",
+      "viewDocs": "View Docs"
+    },
+    "details": {
+      "sinth": {
+        "docsHeading": "Our Official Documentation",
+        "longDescription": "Sinth is a reactive programming language designed for building fast, modern user interfaces. It compiles directly to optimized JavaScript with zero runtime overhead. With a clean syntax inspired by the best of contemporary languages, Sinth lets you write declarative components that update instantly when your data changes. Built for performance and developer experience, it powers everything from small widgets to enterprise dashboards."
+      },
+      "sinthIde": {
+        "longDescription": "Sinth IDE is a desktop environment for the Sinth language, built with Tauri and Rust. It ships a Monaco-based editor with Sinth-aware completions and hover documentation, a real terminal backed by the OS shell, multi-version compiler management sourced from the public npm registry, and silent in-place auto-updates."
+      },
+      "newsApi": {
+        "longDescription": "The News API is the public feed that powers announcements on yannosay.com. It exposes a simple JSON endpoint with pagination, tags, and search over the announcement archive. No authentication required."
+      },
+      "community": {
+        "longDescription": "The Yannosay community gathers on Discord to talk about what we build, share work in progress, and trade ideas for the Sinth language, the IDE, and the rest of the studio output."
+      }
+    },
+    "sectionAlts": {
+      "creative": "Art and community.",
+      "coding": "Coding made easy.",
+      "entertainment": "Entertainment for everyone."
+    }
   }
 }

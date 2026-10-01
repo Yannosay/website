@@ -24,6 +24,7 @@ export default defineNuxtConfig({
 
   routeRules: {
     '/': { prerender: true },
+    '/explore': { prerender: true },
     '/tools': { prerender: true },
     '/tools/**': { prerender: true },
     '/games': { prerender: true },
@@ -32,7 +33,9 @@ export default defineNuxtConfig({
     '/youtube': { prerender: true },
     '/ai': { prerender: true },
     '/rss.xml': { swr: 300 },
-    '/sitemap.xml': { swr: 3600 }
+    '/sitemap.xml': { swr: 3600 },
+    
+    '/html/**': { static: true }
   },
 
   app: {
@@ -79,3 +82,5 @@ export default defineNuxtConfig({
     }
   }
 })
+
+

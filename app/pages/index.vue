@@ -8,7 +8,7 @@
         <span class="productions">Productions</span>
       </h1>
       <div class="cta-row">
-        <PillButton variant="filled" @click="handleOpen">{{ $t('home.hero.download') }}</PillButton>
+        <PillButton variant="filled" to="./explore">{{ $t('home.hero.download') }}</PillButton>
         <PillButton variant="ghost" href="https://discord.gg/SUvcrafTQm">{{ $t('home.hero.discord') }}</PillButton>
       </div>
     </section>
@@ -158,9 +158,9 @@ useHead({
   title: 'Yannosay Productions',
   titleTemplate: null,
   meta: [
-    { name: 'description', content: 'Yannosay Productions is an indie studio crafting games, tools, story-driven productions, videos, art, music, and code.' },
+    { name: 'description', content: 'Yannosay Productions is an indie studio creating games, tools, useful programs, productions, videos, art, music, films and code.' },
     { property: 'og:title', content: 'Yannosay Productions' },
-    { property: 'og:description', content: 'An indie studio crafting games, tools, film, art, music & code. Explore our creative universe.' }
+    { property: 'og:description', content: 'An indie studio creating creative. Tools, Games, Art, Music... Explore our creative universe!' }
   ]
 })
 
@@ -170,14 +170,28 @@ useHead({
       type: 'application/ld+json',
       innerHTML: JSON.stringify({
         '@context': 'https://schema.org',
-        '@type': 'Organization',
-        name: 'Yannosay Productions',
-        url: 'https://yannosay.com',
-        logo: 'https://yannosay.com/assets/images/logo/logo.png',
-        sameAs: [
-          'https://github.com/yannosay',
-          'https://www.youtube.com/@yannosay',
-          'https://www.npmjs.com/package/@yannosay/sinth'
+        '@graph': [
+          //                                           WebSite Schema
+          {
+            '@type': 'WebSite',
+            '@id': 'https://yannosay.com/#website',
+            'url': 'https://yannosay.com',
+            'name': 'Yannosay',
+            'alternateName': ['Yannosay Productions'],
+          },
+
+          {
+            '@type': 'Organization',
+            '@id': 'https://yannosay.com/#organization',
+            'name': 'Yannosay Productions',
+            'url': 'https://yannosay.com',
+            'logo': 'https://yannosay.com/assets/images/logo/logo.png',
+            'sameAs': [
+              'https://github.com/yannosay',
+              'https://www.youtube.com/@yannosay',
+              'https://www.npmjs.com/package/@yannosay/sinth'
+            ]
+          }
         ]
       })
     }

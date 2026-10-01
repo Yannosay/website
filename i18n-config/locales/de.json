@@ -137,5 +137,97 @@
   "footer": {
     "rights": "© {year} Yannosay Productions",
     "credit": "Powered with Sinth"
+  },
+  "explore": {
+    "eyebrow": "Entdecken",
+    "heading": "Was wir anbieten.",
+    "lede": "Alles, was Yannosay Productions macht, an einem Ort. Wähle eine Richtung und tauche ein.",
+    "sections": {
+      "coding": {
+        "title": "Coding leicht gemacht.",
+        "lede": "Sprachwerkzeuge und Dienste für Entwickler."
+      },
+      "entertainment": {
+        "title": "Unterhaltung für alle.",
+        "lede": "Spiele, Filme und Videos aus dem Studio."
+      },
+      "creative": {
+        "title": "Kunst und Community.",
+        "lede": "Illustrationen, Neuigkeiten und die Menschen dahinter."
+      }
+    },
+    "entries": {
+      "sinth": {
+        "name": "Sinth",
+        "desc": "Eine reaktive Sprache zum Erstellen von Benutzeroberflächen. Kompiliert zu optimiertem JavaScript ohne Laufzeit-Overhead."
+      },
+      "sinthIde": {
+        "name": "Sinth IDE",
+        "desc": "Eine Desktop-Umgebung für die Sinth-Sprache mit Compiler-Versionsverwaltung und direkten Updates."
+      },
+      "newsApi": {
+        "name": "News API",
+        "desc": "Der öffentliche Feed, der Ankündigungen auf dieser Seite antreibt. Frei lesbar, ohne Authentifizierung."
+      },
+      "games": {
+        "name": "Spiele",
+        "desc": "Interaktive Erlebnisse in Entwicklung."
+      },
+      "movies": {
+        "name": "Filme",
+        "desc": "Kinematografische Arbeiten in Produktion."
+      },
+      "youtube": {
+        "name": "YouTube",
+        "desc": "Videos, Rollenspiele und Behind-the-Scenes."
+      },
+      "illustrations": {
+        "name": "Illustrationen",
+        "desc": "Zeichnungen, Konzepte und Design."
+      },
+      "news": {
+        "name": "Neuigkeiten",
+        "desc": "Ankündigungen, Veröffentlichungen und Projekt-Updates."
+      },
+      "community": {
+        "name": "Community",
+        "desc": "Tritt dem Discord bei und sprich über das, was wir bauen."
+      }
+    },
+    "buttons": {
+      "npm": "NPM",
+      "github": "GitHub",
+      "docs": "Doku",
+      "endpoint": "Endpunkt öffnen",
+      "viewAll": "Alle ansehen",
+      "youtube": "YouTube-Kanal",
+      "readNews": "Neuigkeiten lesen",
+      "rss": "RSS-Feed",
+      "discord": "Discord beitreten",
+      "exploreTools": "Tools entdecken",
+      "downloadHere": "Hier herunterladen",
+      "visitGithub": "Auf GitHub ansehen",
+      "viewDocs": "Doku ansehen"
+    },
+    "details": {
+      "sinth": {
+        "docsHeading": "Unsere offizielle Dokumentation",
+        "longDescription": "Sinth ist eine reaktive Programmiersprache für schnelle, moderne Benutzeroberflächen. Sie kompiliert direkt zu optimiertem JavaScript ohne Laufzeit-Overhead. Mit einer klaren Syntax, inspiriert von den besten zeitgenössischen Sprachen, ermöglicht Sinth deklarative Komponenten, die sich sofort aktualisieren, wenn sich deine Daten ändern. Für Performance und Developer Experience gebaut, treibt sie alles an, von kleinen Widgets bis zu Enterprise-Dashboards."
+      },
+      "sinthIde": {
+        "longDescription": "Die Sinth IDE ist eine Desktop-Umgebung für die Sinth-Sprache, gebaut mit Tauri und Rust. Sie bietet einen Monaco-basierten Editor mit Sinth-spezifischen Vervollständigungen und Hover-Dokumentation, ein echtes Terminal auf Basis der Betriebssystem-Shell, Compiler-Versionsverwaltung aus der öffentlichen npm-Registry und stille In-Place-Auto-Updates."
+      },
+      "newsApi": {
+        "longDescription": "Die News-API ist der öffentliche Feed, der Ankündigungen auf yannosay.com antreibt. Sie bietet einen einfachen JSON-Endpunkt mit Pagination, Tags und Suche über das Ankündigungsarchiv. Keine Authentifizierung erforderlich."
+      },
+      "community": {
+        "longDescription": "Die Yannosay-Community trifft sich auf Discord, um über das zu sprechen, was wir bauen, Arbeiten zu teilen und Ideen für die Sinth-Sprache, die IDE und den Rest des Studio-Outputs auszutauschen."
+      }
+    },
+    "sectionAlts": {
+      "creative": "Kunst und Community.",
+      "coding": "Coding leicht gemacht.",
+      "entertainment": "Unterhaltung für alle."
+    }
   }
 }

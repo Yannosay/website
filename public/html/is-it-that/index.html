@@ -1,0 +1,50 @@
+<!-- what is it? -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Minimal</title>
+  <style>
+    html, body {
+      margin: 0;
+      height: 100%;
+      background: #000;
+      display: grid;
+      place-items: center;
+    }
+    video {
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <video id="player" autoplay loop muted playsinline src="/html/is-it-that/assets/ball-jumping.webm"></video>
+
+  <script>
+    const player = document.getElementById('player');
+    let clicked = false;
+
+    player.addEventListener('click', () => {
+      clicked = true;
+    });
+
+    player.addEventListener('timeupdate', () => {
+      if (clicked && player.currentTime < 0.1) {
+        player.src = '/html/is-it-that/assets/somewhat-creepy-face-a.webm';
+        player.loop = false;
+        player.play();
+        clicked = false;
+      }
+    });
+
+    player.addEventListener('ended', () => {
+      if (player.src.endsWith('/html/is-it-that/assets/somewhat-creepy-face-a.webm')) {
+        player.src = '/html/is-it-that/assets/eye.webm';
+        player.play();
+      }
+    });
+  </script>
+</body>
+</html>

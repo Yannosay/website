@@ -71,3 +71,7 @@ const progressBars = computed(() => [
 ])
 </script>
 ```
+
+
+
+PillButton variant="filled" @click="handleOpen">{{ $t('home.hero.download') }}</PillButton>
