@@ -66,10 +66,37 @@ const wrapperAttrs = computed(() => {
     box-shadow 0.3s ease,
     transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
 
-  &:hover {
-    background: rgba(255, 255, 255, 0.04);
-    border-color: rgba(255, 255, 255, 0.12);
-    box-shadow: 0 24px 48px rgba(0, 0, 0, 0.35);
+  @media (hover: hover) and (pointer: fine) {
+    &:hover {
+      background: rgba(255, 255, 255, 0.04);
+      border-color: rgba(255, 255, 255, 0.12);
+      box-shadow: 0 24px 48px rgba(0, 0, 0, 0.35);
+
+      .explore-card__media {
+        opacity: 0.12;
+        transform: scale(0.94);
+      }
+
+      .explore-card__overlay {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  }
+
+  &:has(.explore-card__inner:focus-visible) {
+    outline: 2px solid rgba(255, 255, 255, 0.45);
+    outline-offset: 4px;
+
+    .explore-card__media {
+      opacity: 0.12;
+      transform: scale(0.94);
+    }
+
+    .explore-card__overlay {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
 
   &:has(.explore-card__inner:active) {
@@ -91,17 +118,12 @@ const wrapperAttrs = computed(() => {
   outline: none;
 }
 
-.explore-card:has(.explore-card__inner:focus-visible) {
-  outline: 2px solid rgba(255, 255, 255, 0.45);
-  outline-offset: 4px;
-}
-
 .explore-card__media {
   display: flex;
   align-items: center;
   justify-content: center;
   width: 100%;
-  transition: opacity 320ms var(--ease), transform 420ms var(--ease);
+  transition: opacity 320ms var(--ease, ease), transform 420ms var(--ease, ease);
 
   img {
     max-width: 220px;
@@ -110,12 +132,6 @@ const wrapperAttrs = computed(() => {
     height: auto;
     object-fit: contain;
   }
-}
-
-.explore-card:hover .explore-card__media,
-.explore-card:has(.explore-card__inner:focus-visible) .explore-card__media {
-  opacity: 0.12;
-  transform: scale(0.94);
 }
 
 .explore-card__overlay {
@@ -129,23 +145,17 @@ const wrapperAttrs = computed(() => {
   text-align: center;
   opacity: 0;
   transform: translateY(8px);
-  transition: opacity 320ms var(--ease), transform 320ms var(--ease);
+  transition: opacity 320ms var(--ease, ease), transform 320ms var(--ease, ease);
   pointer-events: none;
 }
 
-.explore-card:hover .explore-card__overlay,
-.explore-card:has(.explore-card__inner:focus-visible) .explore-card__overlay {
-  opacity: 1;
-  transform: translateY(0);
-}
-
 .explore-card__name {
-  font-family: var(--font-sans);
+  font-family: var(--font-sans, sans-serif);
   font-weight: 900;
   font-size: 1.2rem;
   letter-spacing: -0.02em;
   line-height: 1.15;
-  color: var(--white);
+  color: var(--white, #fff);
   margin-bottom: 0.6rem;
   overflow-wrap: anywhere;
 }
@@ -153,22 +163,10 @@ const wrapperAttrs = computed(() => {
 .explore-card__desc {
   font-size: 0.82rem;
   font-weight: 300;
-  color: var(--muted);
+  color: var(--muted, #888);
   line-height: 1.65;
   max-width: 30ch;
   overflow-wrap: anywhere;
-}
-
-@media (hover: none) {
-  .explore-card__media {
-    opacity: 0.12;
-    transform: scale(0.94);
-  }
-
-  .explore-card__overlay {
-    opacity: 1;
-    transform: translateY(0);
-  }
 }
 
 @media (max-width: 640px) {

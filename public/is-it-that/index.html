@@ -1,5 +1,3 @@
-<!-- what is it? -->
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -20,7 +18,7 @@
 </head>
 <body>
 
-  <video id="player" autoplay loop muted playsinline src="/html/is-it-that/assets/ball-jumping.webm"></video>
+  <video id="player" autoplay loop muted playsinline src="/assets/extra/is-it-that/ball-jumping.webm"></video>
 
   <script>
     const player = document.getElementById('player');
@@ -32,7 +30,7 @@
 
     player.addEventListener('timeupdate', () => {
       if (clicked && player.currentTime < 0.1) {
-        player.src = '/html/is-it-that/assets/somewhat-creepy-face-a.webm';
+        player.src = '/assets/extra/is-it-that/somewhat-creepy-face-a.webm';
         player.loop = false;
         player.play();
         clicked = false;
@@ -40,8 +38,8 @@
     });
 
     player.addEventListener('ended', () => {
-      if (player.src.endsWith('/html/is-it-that/assets/somewhat-creepy-face-a.webm')) {
-        player.src = '/html/is-it-that/assets/eye.webm';
+      if (player.src.endsWith('/assets/extra/is-it-that/somewhat-creepy-face-a.webm')) {
+        player.src = '/assets/extra/is-it-that/eye.webm';
         player.play();
       }
     });

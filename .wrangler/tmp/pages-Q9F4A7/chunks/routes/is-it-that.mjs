@@ -1,0 +1,2 @@
+import{v as t,b3 as e,q as s,aR as a,aS as o}from"../_/nitro.mjs";import"node:buffer";import"node:timers";import"node:events";import"node:process";import"cloudflare:workers";const r=t(async t=>{const r=await e("assets:templates").getItemRaw("html/is-it-that/index.html");if(!r)throw s({statusCode:404,statusMessage:"Resource Not Found"});return a(t,"Content-Type","text/html; charset=utf-8"),o(t,"Cache-Control","public, max-age=3600, s-maxage=86400, stale-while-revalidate=604800"),r});export{r as default};
+//# sourceMappingURL=is-it-that.mjs.map

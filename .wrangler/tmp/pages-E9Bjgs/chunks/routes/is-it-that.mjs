@@ -1,0 +1,2 @@
+import{v as t,b2 as e,q as s,aR as o}from"../_/nitro.mjs";import"node:buffer";import"node:timers";import"node:events";import"node:process";import"cloudflare:workers";const r=t(async t=>{const r=await e("assets:public").getItemRaw("html/is-it-that/index.html");if(!r)throw s({statusCode:404,statusMessage:"Not Found"});return o(t,"Content-Type","text/html; charset=utf-8"),r});export{r as default};
+//# sourceMappingURL=is-it-that.mjs.map

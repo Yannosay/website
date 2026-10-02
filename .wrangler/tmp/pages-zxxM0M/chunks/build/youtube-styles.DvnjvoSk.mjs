@@ -1,0 +1,2 @@
+const e=[".youtube-page[data-v-c8343f0e]{padding:8rem 2rem 6rem}@media(max-width:640px){.youtube-page[data-v-c8343f0e]{padding:6rem 1.4rem 4rem}}.youtube-page[data-v-c8343f0e]{min-height:100svh;display:flex;align-items:center}.youtube-page__container[data-v-c8343f0e]{max-width:80rem;margin:0 auto;width:100%}.youtube-page__handle[data-v-c8343f0e]{margin:1.5rem auto 0;text-align:center;font-family:var(--font-serif);font-style:italic;font-size:1rem;color:var(--muted)}"];export{e as default};
+//# sourceMappingURL=youtube-styles.DvnjvoSk.mjs.map

@@ -23,19 +23,8 @@ export default defineNuxtConfig({
   },
 
   routeRules: {
-    '/': { prerender: true },
-    '/explore': { prerender: true },
-    '/tools': { prerender: true },
-    '/tools/**': { prerender: true },
-    '/games': { prerender: true },
-    '/movies': { prerender: true },
-    '/illustrations': { prerender: true },
-    '/youtube': { prerender: true },
-    '/ai': { prerender: true },
     '/rss.xml': { swr: 300 },
-    '/sitemap.xml': { swr: 3600 },
-    
-    '/html/**': { static: true }
+    '/sitemap.xml': { swr: 3600 }
   },
 
   app: {
@@ -69,7 +58,17 @@ export default defineNuxtConfig({
 
   nitro: {
     preset: 'cloudflare-pages',
-    cloudflare: { nodeCompat: true }
+    cloudflare: { nodeCompat: true },
+    serverAssets: [
+      {
+        baseName: 'templates',
+        dir: 'assets'
+      }
+    ],
+    prerender: {
+      crawlLinks: true,
+      failOnError: true
+    }
   },
 
   compatibilityDate: '2026-05-30',
@@ -82,5 +81,3 @@ export default defineNuxtConfig({
     }
   }
 })
-
-
