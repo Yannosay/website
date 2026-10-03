@@ -1,0 +1,2 @@
+import{c as e,Y as o}from"./server.mjs";import{d as r}from"../routes/renderer.mjs";import"../_/nitro.mjs";import"node:buffer";import"node:timers";import"node:events";import"node:process";import"cloudflare:workers";const s={};const t=s.setup;s.setup=(e,r)=>{const s=o.useSSRContext();return(s.modules||(s.modules=new Set)).add("pages/test.vue"),t?t(e,r):void 0};const n=e(s,[["ssrRender",function(e,s,t,n){s(`<div${r(o.mergeProps({class:"bg-black text-white min-h-screen overflow-x-hidden"},n))}></div>`)}]]);export{n as default};
+//# sourceMappingURL=test-8icL7gxN.mjs.map
