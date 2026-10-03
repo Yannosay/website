@@ -1,2 +1,0 @@
-const t=".settings-button[data-v-4664ef83]{width:36px;height:36px;display:flex;align-items:center;justify-content:center;border-radius:8px;border:none;background:transparent;color:#fff6;cursor:pointer;transition:background .15s ease,color .15s ease}.settings-button[data-v-4664ef83]:hover{background:#ffffff0d;color:#fff}.settings-button[data-v-4664ef83]:focus-visible{outline:2px solid hsla(0,0%,100%,.6);outline-offset:2px}";export{t as S};
-//# sourceMappingURL=default-styles-2.mjs-BSZ2L2hv.mjs.map
